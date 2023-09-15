@@ -9,8 +9,39 @@ function createBoard() {
     }
 }
 
-const board = new Array(8).fill(0).map(() => new Array(8).fill(0));
+var board = new Array(8).fill(0).map(() => new Array(8).fill(0));
 createBoard();
+
+function cellValue(x, y, number) {
+    let move = 0;
+
+    if (number === 64) {
+       // createBoard(); 
+        return;
+    }
+
+    if (board[x][y] === 0) {
+
+        while (move < 8) {
+
+            const nextXVal = xSteps(x, move);
+            const nextYVal = ySteps(y, move);
+
+            if (nextXVal !== -1 && nextYVal !== -1) {
+
+                board[x][y] = number;
+
+                //createBoard();
+
+                cellValue(nextXVal, nextYVal, number + 1);
+
+                board[x][y] = 0;
+            }
+            move++;
+        }
+    }
+}
+
 
 function xSteps(x, move) {
     if (move === 0) {
@@ -63,3 +94,7 @@ function ySteps(y, move) {
         return y; 
     }
 }
+
+cellValue(0, 0, 0);
+
+createBoard();
